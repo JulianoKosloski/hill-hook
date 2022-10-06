@@ -1,0 +1,120 @@
+test> show dbs
+admin   40.00 KiB
+config  12.00 KiB
+local   40.00 KiB
+test> use newdb
+switched to db newdb
+newdb> db
+newdb
+newdb> db.users
+newdb.users
+newdb> db.users.insertOne({ name: "John", age: 13})
+{
+  acknowledged: true,
+  insertedId: ObjectId("633ec025b2cffd02bbeec24f")
+}
+newdb> db
+newdb
+newdb> show collections
+users
+newdb> db.users
+newdb.users
+newdb> db.users.find()
+[
+  { _id: ObjectId("633ec025b2cffd02bbeec24f"), name: 'John', age: 13 }
+]
+newdb> db.users.insertOne({ name: "Mary", age: 27})
+{
+  acknowledged: true,
+  insertedId: ObjectId("633ec06bb2cffd02bbeec250")
+}
+newdb> db.users.find()
+
+newdb> db.users.find().sort({ age: 1})
+[
+  { _id: ObjectId("633ec025b2cffd02bbeec24f"), name: 'John', age: 13 },
+  { _id: ObjectId("633ec06bb2cffd02bbeec250"), name: 'Mary', age: 27 },
+  {
+    _id: ObjectId("633ec256b2cffd02bbeec252"),
+    name: 'Sally',
+    age: 37,
+    address: { street: 'Boulevard St', number: 37 },
+    hobbies: [ 'Drawing', 'Cooking' ]
+  },
+  { _id: ObjectId("633ec136b2cffd02bbeec251"), name: 'Monk', age: 48 }
+]
+newdb> db.users.find().sort({ age: 1, name: 1})
+[
+  { _id: ObjectId("633ec025b2cffd02bbeec24f"), name: 'John', age: 13 },
+  { _id: ObjectId("633ec06bb2cffd02bbeec250"), name: 'Mary', age: 27 },
+  {
+    _id: ObjectId("633ec256b2cffd02bbeec252"),
+    name: 'Sally',
+    age: 37,
+    address: { street: 'Boulevard St', number: 37 },
+    hobbies: [ 'Drawing', 'Cooking' ]
+  },
+  { _id: ObjectId("633ec136b2cffd02bbeec251"), name: 'Monk', age: 48 }
+]
+newdb> db.users.find().sort({ age: -1})
+[
+  { _id: ObjectId("633ec136b2cffd02bbeec251"), name: 'Monk', age: 48 },
+  {
+    _id: ObjectId("633ec256b2cffd02bbeec252"),
+    name: 'Sally',
+    age: 37,
+    address: { street: 'Boulevard St', number: 37 },
+    hobbies: [ 'Drawing', 'Cooking' ]
+  },
+  { _id: ObjectId("633ec06bb2cffd02bbeec250"), name: 'Mary', age: 27 },
+  { _id: ObjectId("633ec025b2cffd02bbeec24f"), name: 'John', age: 13 }
+]
+newdb> db.users.find().sort({ age: -1}).limit(2)
+[
+  { _id: ObjectId("633ec136b2cffd02bbeec251"), name: 'Monk', age: 48 },
+  {
+    _id: ObjectId("633ec256b2cffd02bbeec252"),
+    name: 'Sally',
+    age: 37,
+    address: { street: 'Boulevard St', number: 37 },
+    hobbies: [ 'Drawing', 'Cooking' ]
+  }
+]
+newdb> db.users.find({age: 48})
+[
+  { _id: ObjectId("633ec136b2cffd02bbeec251"), name: 'Monk', age: 48 }
+]
+newdb> db.users.find({name: 1, age: 1})
+
+newdb> db.users.find(,{name: 1, age: 1})
+Uncaught:
+SyntaxError: Unexpected token ','. (1:15)
+
+> 1 | db.users.find(,{name: 1, age: 1})
+    |                ^
+  2 |
+
+newdb> db.users.find({name: 1, age: 1})
+
+newdb> db.users.replaceOne({age: 13}, {name: "This guy"})
+{
+  acknowledged: true,
+  insertedId: null,
+  matchedCount: 1,
+  modifiedCount: 1,
+  upsertedCount: 0
+}
+newdb> db.users.find()
+[
+  { _id: ObjectId("633ec025b2cffd02bbeec24f"), name: 'This guy' },
+  { _id: ObjectId("633ec06bb2cffd02bbeec250"), name: 'Mary', age: 27 },
+  { _id: ObjectId("633ec136b2cffd02bbeec251"), name: 'Monk', age: 48 },
+  {
+    _id: ObjectId("633ec256b2cffd02bbeec252"),
+    name: 'Sally',
+    age: 37,
+    address: { street: 'Boulevard St', number: 37 },
+    hobbies: [ 'Drawing', 'Cooking' ]
+  }
+]
+newdb>                                       
