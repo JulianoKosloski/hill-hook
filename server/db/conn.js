@@ -1,7 +1,7 @@
 // didn't create cloud database for security reasons, should do this at home
 
-const{ MongoClient} = require("mongodb");
-const database = process.env.ATLAS_URI;
+const MongoClient = require("mongodb");
+const database = process.env.ATLAS_URI; //or local host url depending on the test
 
 const client = new MongoClient (database, {
     useNewUrlParser: true,
@@ -10,16 +10,16 @@ const client = new MongoClient (database, {
 
 var _db;
 
-module.exports = {
+module.exports = { //we're exporting functions to connect to the server and to access the database
     connectToServer: function(callback) { 
         client.connect( function (err, db) {
             //verify we have a good db object
-            if (db)
+            if (db) // if database exists (is true)
                 {
-                _db = db.db("employees");
+                _db = db.db("employees"); //TODO change this to a database of yours
                 console.log("Successfully connected to MongoDB."); 
                 }
-            return callback(err);
+            return callback(err); //need to check Node's callbacks to better understand this
         });
     },
 
