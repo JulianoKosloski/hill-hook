@@ -1,5 +1,7 @@
 import React from "react";
  
+
+// need to test this sample App with a few database entries and then work to customize the db to my needs, then setup additional API calls and work on the front end
 // We use Route in order to define the different routes of our application
 import { Route, Routes } from "react-router-dom";
  
